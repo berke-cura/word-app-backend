@@ -1,12 +1,20 @@
-exports.main = (req, res, next) => {    
-    const { letterCount, existingLetter, notExistingLetter, letterPlace} = req.body;
-    const doc = require("../../data/en/en" + letterCount);
+const checkCondition = require('../helpers/checkCondition')
 
-    doc.values.map((word) => {
-        console.log(word)
-    })
-    
-    res.status(200).json({message:'done'});
+exports.main = async (req, res) => {
+    const { letterCount, existingLetter, notExistingLetter, letterPlace } = req.body;
+    const doc = require("../../data/en/en" + letterCount);
+    let array = []
+
+
+    await Promise.all(doc.values.map(async (word) => {
+        const isOkey = await checkCondition(word, existingLetter, notExistingLetter, letterPlace)
+        if (isOkey) {
+            array.push(word)
+        }
+
+    }));
+
+    res.status(200).json({ message: 'done', words: array });
 }
 
 // REQUEST BODY EXAMPLE
@@ -21,7 +29,7 @@ exports.main = (req, res, next) => {
     // get data by letterCount
     // ("data/en/en" + layerCount) yaparak dosya okuyacak
     // dosyada ki bütün kelimeleri loop edecek
-        // her iterasyonda 
+        // her iterasyonda
             // layerPlace var mı bakacak
             // existingLetter var mı bakacak
             // nonExistingLetter var mı bakacak
