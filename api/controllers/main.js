@@ -1,12 +1,11 @@
 exports.main = (req, res, next) => {    
-    const letterCount = req.body.letterCount;
-    const existingLetter = req.body.existingLetter;
-    const notExistingLetter = req.body.notExistingLetter;
-    const letter_place = req.body.letter_place;
-    console.log(letterCount);
-    console.log(existingLetter);
-    console.log(notExistingLetter);
-    console.log(letter_place);
+    const { letterCount, existingLetter, notExistingLetter, letterPlace} = req.body;
+    const doc = require("../../data/en/en" + letterCount);
+
+    doc.values.map((word) => {
+        console.log(word)
+    })
+    
     res.status(200).json({message:'done'});
 }
 
@@ -17,3 +16,15 @@ exports.main = (req, res, next) => {
     "notExistingLetter": ["1","2","3"],
     "letter_place": {"a":3, "d":5}
 } */
+
+    // TODOS
+    // get data by letterCount
+    // ("data/en/en" + layerCount) yaparak dosya okuyacak
+    // dosyada ki bütün kelimeleri loop edecek
+        // her iterasyonda 
+            // layerPlace var mı bakacak
+            // existingLetter var mı bakacak
+            // nonExistingLetter var mı bakacak
+                // Eğer tüm koşullar istenildiği gibiyse
+                    // bu kelime response datasının tutulduğu bir array e eklenecek
+    // loop un sonunda response olarak bu kelime array i dönecek
