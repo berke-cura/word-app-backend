@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const morgan = require('morgan')
 
 const mainRoute = require('./api/routes/main');
 
@@ -13,6 +14,11 @@ app.use((req, res, next) => {
     }
     next()
 });
+
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+
 
 app.use('/', mainRoute)
 
