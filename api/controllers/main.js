@@ -2,8 +2,11 @@ const checkCondition = require('../helpers/checkCondition')
 
 exports.main = async (req, res) => {
     const { letterCount, existingLetter, notExistingLetter, letterPlace } = req.body;
-    const doc = require("../../data/en/en" + letterCount);
-    let array = []
+    // eslint-disable-next-line global-require
+    // eslint-disable-next-line import/no-dynamic-require
+    // eslint-disable-next-line global-require
+    const doc = require(`../../data/en/en${  letterCount}`);
+    const array = []
 
 
     await Promise.all(doc.values.map(async (word) => {

@@ -1,20 +1,13 @@
 const express = require('express');
+const cors = require('cors')
+
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan')
 
 const mainRoute = require('./api/routes/main');
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Origin', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-    if (req === 'OPTIONS') {
-        res.header('Access-Control-Allow-Origin', 'PUT, POST, PATCH, DELETE, GET');
-        return res.status(200).json({})
-    }
-    next()
-});
-
+app.use(cors())
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -27,7 +20,7 @@ app.use((req, res, next) => {
     error.status = 404;
     next(error);
 });
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
     res.status(error.status || 500);
     res.json({
         error: {
