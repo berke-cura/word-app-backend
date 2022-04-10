@@ -1,3 +1,4 @@
+/* eslint-disable import/no-dynamic-require */
 const checkCondition = require('../helpers/checkCondition')
 
 exports.main = async (req, res) => {
